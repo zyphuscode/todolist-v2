@@ -12,12 +12,12 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongoose://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true})
 
 //item schema
 
 const itemsSchema =  {
-  nameItem: String
+  name: String
 };
 // model for our items based on schema.
 
@@ -46,17 +46,23 @@ Item.insertMany (defaultItems, function(err){
   if (err) {
     console.log(err);
   } else{
-    console.log("here are the lists of items");
+    console.log("Successfully saved items to the database.");
   }
 });
 
 
-
+//reading from our database with mongoose using find().
+//we will tap into our Item model using find and it takes two params.
+//we will do this inside our get route 
 app.get("/", function(req, res) {
 
+  Item.find(function(err, foundItems){
+    res.render("list", {listTitle: "Today", newListItems: foundItems})
+  });
+  
 
 
-  res.render("list", {listTitle: "Today", newListItems: items});
+  
 
 });
 
