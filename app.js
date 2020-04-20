@@ -23,6 +23,35 @@ const itemsSchema =  {
 
 const Item = mongoose.model("Item", itemsSchema);
 
+// documents using model and schema
+// doc 1
+const item1 = new Item ({
+
+name : "Welcome to your todolist!"
+});
+//doc 2
+const item2 = new Item ({
+  name: "Hit the + button to add a new item."
+});
+//doc 3
+const item3 = new Item ({
+  name: "<-- Hit this to delete."
+});
+
+//now we will store all this item in a new const
+const defaultItems = [item1, item2, item3];
+
+//now we will creat insert many to store the item  collections
+Item.insertMany (defaultItems, function(err){
+  if (err) {
+    console.log(err);
+  } else{
+    console.log("here are the lists of items");
+  }
+});
+
+
+
 app.get("/", function(req, res) {
 
 
