@@ -72,34 +72,31 @@ app.get("/", function(req, res) {
     res.render("list", {listTitle: "Today", newListItems: foundItems})
   }
 
-
-
-    
-  });
-  
-
-
-  
-
 });
+  
+});
+
+//post route with monooose
 
 app.post("/", function(req, res){
 
-  const item = req.body.newItem;
+  const itemName = req.body.newItem; //itemName is a new const
 
-  if (req.body.list === "Work") {
-    workItems.push(item);
-    res.redirect("/work");
-  } else {
-    items.push(item);
-    res.redirect("/");
-  }
+  //we will create a new document for itemName;
+
+  const item = new Item({
+    name: itemName
+  });
+  item.save();
+
+  res.redirect("/");
+
+
 });
 
 app.get("/work", function(req,res){
   res.render("list", {listTitle: "Work List", newListItems: workItems});
 });
-
 app.get("/about", function(req, res){
   res.render("about");
 });
