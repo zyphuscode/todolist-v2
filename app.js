@@ -42,13 +42,13 @@ const item3 = new Item ({
 const defaultItems = [item1, item2, item3];
 
 //now we will creat insert many to store the item  collections
-Item.insertMany (defaultItems, function(err){
-  if (err) {
-    console.log(err);
-  } else{
-    console.log("Successfully saved items to the database.");
-  }
-});
+//Item.insertMany (defaultItems, function(err){
+ // if (err) {
+  //  console.log(err);
+//  } else{
+ //   console.log("Successfully saved items to the database.");
+//  }
+//});
 
 
 //reading from our database with mongoose using find().
@@ -56,8 +56,25 @@ Item.insertMany (defaultItems, function(err){
 //we will do this inside our get route 
 app.get("/", function(req, res) {
 
-  Item.find(function(err, foundItems){
+  Item.find({}, function(err, foundItems){
+    if (foundItems.length === 0) {
+
+    Item.insertMany (defaultItems, function(err){
+      if (err) {
+        console.log(err);
+      } else{
+      console.log("Successfully saved items to the database.");
+      }
+    });
+
+    res.redirect("/")
+  }else {
     res.render("list", {listTitle: "Today", newListItems: foundItems})
+  }
+
+
+
+    
   });
   
 
