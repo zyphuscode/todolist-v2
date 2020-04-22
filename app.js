@@ -95,7 +95,7 @@ app.post("/", function(req, res){
 });
 //post route to delete items when user checked out the item
 app.post("/delete", function(req, res){
-  console.log(req.body);
+  console.log(req.body.checkbox);
 })
 
 app.get("/work", function(req,res){
