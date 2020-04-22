@@ -78,7 +78,7 @@ app.get("/", function(req, res) {
 
 // new routes with express routes paramater
 app.get("/:customListItem", function(req, res){
-  console.log(req.params.customListItem);
+  const customListItem = req.params.customListItem;
 })
 
 //
