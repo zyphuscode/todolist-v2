@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true, useUnifiedTopology: true ,  useFindAndModify: false });
 
 //item schema
 
@@ -95,8 +95,15 @@ app.post("/", function(req, res){
 });
 //post route to delete items when user checked out the item
 app.post("/delete", function(req, res){
-  console.log(req.body.checkbox);
-})
+  const checkedItemId = req.body.checkbox;
+  //to delete item using their id
+
+  Item.findByIdAndRemove(checkedItemId , function(err) {
+    if (!err) {
+      console.log("success");
+    }
+  })
+});
 
 app.get("/work", function(req,res){
   res.render("list", {listTitle: "Work List", newListItems: workItems});
