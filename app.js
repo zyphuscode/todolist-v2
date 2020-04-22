@@ -76,6 +76,13 @@ app.get("/", function(req, res) {
   
 });
 
+// new routes with express routes paramater
+app.get("/:customListItem", function(req, res){
+  console.log(req.params.customListItem);
+})
+
+//
+
 //post route with monooose
 
 app.post("/", function(req, res){
@@ -101,13 +108,12 @@ app.post("/delete", function(req, res){
   Item.findByIdAndRemove(checkedItemId , function(err) {
     if (!err) {
       console.log("success");
+      res.redirect("/");
     }
   })
 });
 
-app.get("/work", function(req,res){
-  res.render("list", {listTitle: "Work List", newListItems: workItems});
-});
+
 app.get("/about", function(req, res){
   res.render("about");
 });
