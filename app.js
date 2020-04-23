@@ -91,15 +91,33 @@ app.get("/", function(req, res) {
 });
 
 // new routes with express routes paramater
-app.get("/:customListItem", function(req, res){
-  const customListItem = req.params.customListItem;
+app.get("/:customListName", function(req, res){
+  const customListName = req.params.customListName;
 
-  const list = new List ({
-    name: customListItem,
-    items: defaultItems
+
+  List.findOne({name: customListName}, function(err, foundList){
+    if (!err) {
+      if (!foundList){
+        //create a list
+        const list = new List ({
+          name : customListName,
+          items : defaultItems
+        });
+        list.save();
+        res.redirect("/" + customListName );
+
+      } else {
+        //show an existing list
+        res.render("list", { listTitle: foundList.name, newListItems: foundList.items });
+      }
+    }
   });
-  list.save();
+
+
 });
+
+
+
 
 //
 
@@ -120,6 +138,7 @@ app.post("/", function(req, res){
 
 
 });
+
 //post route to delete items when user checked out the item
 app.post("/delete", function(req, res){
   const checkedItemId = req.body.checkbox;
