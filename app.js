@@ -126,6 +126,7 @@ app.get("/:customListName", function(req, res){
 app.post("/", function(req, res){
 
   const itemName = req.body.newItem; //itemName is a new const
+  const listName = req.body.list; //this list corresponds to the name of the button.
 
   //we will create a new document for itemName;
 
@@ -133,6 +134,8 @@ app.post("/", function(req, res){
     name: itemName
   });
   item.save();
+
+  
 
   res.redirect("/");
 
